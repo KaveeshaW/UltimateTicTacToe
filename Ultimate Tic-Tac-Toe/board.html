@@ -1,0 +1,182 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>4 Player Ultimate Tic-Tac-Toe</title>
+    
+        <!-- Game Board -->
+        <script src="boardScript.js" defer></script>
+        <link rel="stylesheet" href="board.css">
+    
+        <!-- Game Status Info -->
+        <link rel="stylesheet" href="gameStatusInfo.css">
+        <script src="gameStatusInfo.js" defer></script>
+    
+        <!-- Bootstrap 4.3.1 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    
+    </head>
+<body>
+    <!--heading class-->
+    <div class="heading" id="boardHeading">
+        <h1>Ultimate Tic-Tac-Toe</h1>
+        <h3>4 Player Edition</h2>
+    </div>
+    
+    <div class="bboard" id="bigBoard">
+        <!--board class-->
+        <div class="board" id="board">
+            <!--cell class-->
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+            <div class="cell" data-cell1></div>
+        </div>
+
+        <div class="board" id="board2">
+            <!--cell class-->
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+            <div class="cell" data-cell2></div>
+        </div>
+        <div class="board" id="board3">
+            <!--cell class-->
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+            <div class="cell" data-cell3></div>
+        </div>
+        <div class="board" id="board4">
+            <!--cell class-->
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+            <div class="cell" data-cell4></div>
+        </div>
+        <div class="board" id="board5">
+            <!--cell class-->
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+            <div class="cell" data-cell5></div>
+        </div>
+        <div class="board" id="board6">
+            <!--cell class-->
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+            <div class="cell" data-cell6></div>
+        </div>
+        <div class="board" id="board7">
+            <!--cell class-->
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+            <div class="cell" data-cell7></div>
+        </div>
+        <div class="board" id="board8">
+            <!--cell class-->
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+            <div class="cell" data-cell8></div>
+        </div>
+        <div class="board" id="board9">
+            <!--cell class-->
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+            <div class="cell" data-cell9></div>
+        </div>
+    </div>
+
+    <!-- Game status information-->
+    <div class="row" style="margin: auto;">
+        <div class="col-sm-4">
+            <p id="game_code" class="game_status_text">404</p>
+        </div>
+        <div class="col-sm-4">
+            <p id="current_player_turn" class="game_status_text">PlaceHolder</p>
+        </div>
+        <div class="col-sm-4">
+            <p id="turn_timer" class="game_status_text">PlaceHolder</p>
+        </div>
+    </div>
+    <div class="row" style="margin: auto">
+        <div class="col-sm-4">
+            <p id="player_name" class="game_status_text">PlaceHolder</p>
+            <p id="player_symbol" class="game_status_text">PlaceHolder</p>
+        </div>
+        <div class="col-sm-4">
+            <p id="player_teammate" class="game_status_text">None</p>
+            <p id="player_score" class="game_status_text">PlaceHolder</p>
+        </div>
+        <div class="col-sm-4 text-center">
+            <p id="game_timer" class="game_status_text">PlaceHolder</p>
+        </div>
+    </div>
+    <div class="row" style="margin: auto"></div>
+        <div class="forfeitButton">
+            <button id="forfeit" class="btn btn-lg btn-danger btn-block " onclick="">Forfeit?</button>
+        </div>
+    </div>
+    
+    <!--result page class-->
+    <div class="result-page" id="resultPage">
+        <div data-result-page-text>X Wins</div>
+        <div id="gameTimerResultPage">Total Game Time: </div>
+        <button id="restartButton">Restart</button>
+        <div class="divider">
+        <button id="menu">Menu</button>
+    </div>
+</body>
+</html>

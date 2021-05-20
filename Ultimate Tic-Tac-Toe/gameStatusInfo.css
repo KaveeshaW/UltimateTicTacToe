@@ -1,0 +1,52 @@
+.game_status_text {
+    text-align: center;
+}
+.forfeitButton {
+    margin-left: 33%;
+    margin-right: 33%;
+}
+#game_code::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Game Code: ";
+}
+#current_player_turn::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Make a move: ";
+}
+#turn_timer::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Time left to move: ";
+}
+#player_name::before {
+    font-weight: bold;
+    font-size: large;
+    content: "You are Player: ";
+}
+#player_symbol::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Your symbol is: ";
+}
+#player_teammate::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Your teammate: ";
+}
+#player_score::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Your Score: ";
+}
+#player_teamscore::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Team Score: ";
+}
+#game_timer::before {
+    font-weight: bold;
+    font-size: large;
+    content: "Game timer: ";
+}

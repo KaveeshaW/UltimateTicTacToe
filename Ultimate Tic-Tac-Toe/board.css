@@ -1,0 +1,316 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+/*Variables*/
+:root {
+    /*Cell size is the size of single cell and shape size is the size of shape within cell*/
+    --cell-size: 50px;
+    --shape-size: calc(var(--cell-size) * 0.8);
+    --background-color: #ae6b00;
+}
+
+/*Body of HTML CSS*/
+body {
+    margin: 0;
+}
+
+/*heading class CSS*/
+.heading {
+    font-size: 10px;
+    font-style: initial;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.bboard {
+    width: 100vw;
+    height: 65vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    background-color: #4fe49eab;
+    padding: 5px;
+    /*border: 5px solid darkred*/
+    /*grid template column makes it a 3x3 grid as we are making 3 column grid using 9 cells*/
+    grid-template-columns: repeat(3, auto);
+}
+
+/* Board class CSS*/
+.board {
+    width: calc(var(--cell-size) * 3);
+    height: calc(var(--cell-size) * 3);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background-color: #4fe49eab;
+    /*grid template column makes it a 3x3 grid as we are making 3 column grid using 9 cells*/
+    grid-template-columns: repeat(3, auto);
+}
+
+/*cell CSS*/
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 2px solid #fa0060;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: mediumspringgreen;
+    /*position relative for the shapes in the 3x3 to be aligned properly*/
+    position: relative;
+    cursor: pointer;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: 5px solid darkblue;
+}
+
+.cell:nth-child(3n + 1) {
+    border-left: 3px solid darkblue;
+}
+
+.cell:nth-child(3n + 3) {
+    border-right: 3px solid darkblue;
+}
+
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+    border-bottom: 3px solid darkblue;
+}
+
+/*when hovering over already assigned shapes cursor is not allowed*/
+.cell.x,
+.cell.circle, 
+.cell.square,
+.cell.triangle {
+    cursor: not-allowed;
+}
+
+/*Color of the X Shape*/
+.cell.x::before,
+.cell.x::after {
+    /*background-color: #ae6b00;*/
+    background-color: var(--background-color);
+}
+
+/*Color of the X when hovering over empty cell*/
+.board.x .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::before,
+.board.x .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    background-color: #ffb948;
+}
+
+/*Creation of the shape X CSS*/
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::before,
+.board.x .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    content: "";
+    position: absolute;
+    width: calc(var(--shape-size) * 0.15);
+    height: var(--shape-size);
+}
+
+/*Rotate one small L to 45 deg*/
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::before {
+    transform: rotate(45deg);
+}
+/*Rotate another one small L to -45deg. This creates a cross i.e. X*/
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    transform: rotate(-45deg);
+}
+
+/*Color of circle ring*/
+.cell.circle::before {
+    background-color: var(--background-color);
+}
+
+/*Color of hover circle ring*/
+.board.circle
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::before {
+    background-color: #ffb948;
+}
+
+/*We created a O by creating a big orange cicle with a green smaller circle inside it*/
+/*Creation of shape circle*/
+.cell.circle::before,
+.cell.circle::after,
+.board.circle
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::before,
+.board.circle
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+/*Values of outer circle*/
+.cell.circle::before,
+.board.circle
+    .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::before {
+    width: var(--shape-size);
+    height: var(--shape-size);
+}
+
+/*Values of inner circle*/
+.cell.circle::after,
+.board.circle
+    .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    width: calc(var(--shape-size) * 0.72);
+    height: calc(var(--shape-size) * 0.72);
+    background-color: mediumspringgreen;
+}
+
+/*CSS for result page which shows up after result is calculated*/
+.result-page {
+    /*By default result wont be displayed one displays when show is called
+  // ! TODO change bake to display: none;
+  */
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3rem;
+    flex-direction: column;
+}
+
+/*Display result page when show is called*/
+.result-page.show {
+    display: flex;
+}
+/*Divider between buttons*/
+.divider {
+    width: auto;
+    height: 10 px;
+    display: inline-block;
+}
+
+/*CSS for buttons*/
+.result-page button {
+    font-size: 2rem;
+    width: 200px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 0.3em 0.5em;
+    cursor: pointer;
+}
+
+/*CSS for buttons when hovered over*/
+.result-page button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+/*Code for discussion on shape of other symbols*/
+/*Sample code for square*/
+
+/*Color of square */
+.cell.square::before {
+    background-color: var(--background-color);
+}
+
+/*Color of hover square*/
+
+.board.square
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::before {
+    background-color: #ffb948;
+}
+
+.cell.square::before,
+.cell.square::after,
+.board.square
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::before,
+.board.square
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    content: "";
+    position: absolute;
+}
+
+.cell.square::before,
+.board.square
+    .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::before {
+    width: var(--shape-size);
+    height: var(--shape-size);
+    /*background-color: #ae6b00;*/
+}
+
+/*Values of inner square*/
+.cell.square::after,
+.board.square
+    .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    width: calc(var(--shape-size) * 0.72);
+    height: calc(var(--shape-size) * 0.72);
+    background-color: mediumspringgreen;
+}
+
+/*Sample code for triangle*/
+
+/*Color of triangle */
+.cell.triangle::before {
+    border-color: transparent transparent var(--background-color) transparent;
+    /*background-color: #ae6b00;*/
+}
+
+/*Color of hover triangle*/
+
+.board.triangle
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::before {
+    border-color: transparent transparent #ffb948 transparent;
+    /*background-color: #ffb948 ;*/
+}
+
+.cell.triangle::before,
+.cell.triangle::after,
+.board.triangle
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::before,
+.board.triangle
+    .cell:not(.disable):not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    content: "";
+    position: absolute;
+}
+
+.cell.triangle::before,
+.board.triangle
+    .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::before {
+    border-width: 0 20px 40px 20px;
+
+    /*background-color: #ae6b00;*/
+}
+
+/*Values of inner triangle*/
+.cell.triangle::after,
+.board.triangle
+    .cell:not(.x):not(.circle):not(.square):not(.triangle):hover::after {
+    border-width: 0 14.4px 28.8px 14.4px;
+    border-color: transparent transparent mediumspringgreen transparent;
+}
+
+
+
+/* Color of disable */
+.cell.disable {
+    background-color: #929292;
+    cursor: not-allowed;
+}

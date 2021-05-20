@@ -1,0 +1,34 @@
+/* For making sure the images stay within their bounaries */
+.menu-sidebarimage-constraints {
+    height: auto; 
+    max-width: 100%;
+}
+
+/* Ensures the content of center column takes only the space available */
+.menu-center-column-content {
+    max-width: 100%;
+}
+
+/* For adjustments to the jumbotron banner text */
+.menu-jumbotron-h1 {
+    font-size: 400%;
+}
+
+.menu-jumbotron-p {
+    font-size: 150%;
+}
+
+/* Sets the body background color */
+.menu-body {
+    background-color: rgba(79, 228, 158, 0.671);
+}
+
+
+/* Used for debugging */
+.debug-bgcolor-center-column {
+    background-color:rgba(182, 46, 91, 0);
+}
+
+.debug-bgcolor-side-column {
+    background-color:rgba(230, 230, 250, 0);
+}

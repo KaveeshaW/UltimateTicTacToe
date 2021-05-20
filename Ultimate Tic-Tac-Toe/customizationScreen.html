@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customization Screen</title>
+
+    <!-- Bootstrap 4.3.1 -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- Additional Menu CSS Classes-->
+    <link rel="stylesheet" type="text/css" href="./menus.css" media="screen" />
+
+    <style>
+      /* .hide {
+        display: none;
+      }
+
+      #theAIDifficulty:hover + .hide {
+        display: block;
+        color: #007bff;
+      } */
+    </style>
+  </head>
+  <body class="menu-body">
+    <div id="title_banner" class="jumbotron text-center">
+      <h1 class="menu-jumbotron-h1">Ultimate Tic-Tac-Toe</h1>
+      <p class="menu-jumbotron-p">4-Player Edition</p>
+    </div>
+
+    <div class="row" style="margin: auto">
+      <!--Left column-->
+      <div class="col-sm-2 debug-bgcolor-side-column">
+        <img
+          class="menu-sidebarimage-constraints rounded"
+          src="https://cdn.discordapp.com/attachments/419736437265661953/809881045817360474/unknown.png"
+          alt="Shapes"
+        />
+      </div>
+
+      <!--Center column-->
+      <!-- color of shape -->
+      <!-- which board should you play -->
+      <!-- players turn timer -->
+      <!-- overall timer -->
+      <!-- number of AIs to play against -->
+
+      <div class="col-sm-8 debug-bgcolor-center-column">
+        <div id="different_customizations" class="container">
+          <label for="colorList">Shape color:</label>
+          <input list="colorList" name="color" id="theColorList" />
+          <datalist id="colorList"> </datalist>
+
+          <br />
+
+          <label for="player-turn-timer">Player Turn Timer: </label>
+          <input
+            name="individualTimer"
+            id="player-turn-timer"
+            placeholder="Enter a time > 0"
+          />
+
+          <br />
+
+          <label for="overall-game-timer">Overall Game Timer Limit: </label>
+          <input
+            name="overallGameTimer"
+            id="overall-game-timer"
+            placeholder="Enter a time > 0"
+          />
+
+          <br />
+
+          <label for="number-of-ai">Number of AI: </label>
+          <input list="number-of-ai" name="numAI" id="theNumberOfAI" />
+          <datalist id="number-of-ai"> </datalist>
+
+          <br />
+
+          <label for="ai-difficulty">AI Difficulty: </label>
+          <input
+            list="ai-difficulty"
+            name="difficulty"
+            id="theAIDifficulty"
+            disabled
+          />
+          <!-- <div class="hide">
+            Will be enabled if you choose the number of ai to be greater than 0
+          </div> -->
+          <datalist id="ai-difficulty"> </datalist>
+
+          <br />
+
+          <label for="customizedBoardInput">Customized Board Input: </label>
+          <input name="list-of-input" id="customizedBoardInput" />
+
+          <button
+            class="fa fa-gamepad btn btn-primary btn-lg btn-block"
+            id="submit-preferences"
+          >
+            Submit Preferences
+          </button>
+        </div>
+      </div>
+
+      <!--Right column-->
+      <div class="col-sm-2 debug-bgcolor-side-column">
+        <img
+          class="menu-sidebarimage-constraints rounded"
+          src="https://cdn.discordapp.com/attachments/419736437265661953/809881045817360474/unknown.png"
+          alt="Shapes"
+        />
+      </div>
+    </div>
+  </body>
+  <script>
+    // document
+    //   .querySelector("#player-turn-timer")
+    //   .addEventListener("input", isNumberGreaterThanZero);
+    // document
+    //   .querySelector("#overall-game-timer")
+    //   .addEventListener("input", isNumberGreaterThanZero);
+    document
+      .querySelector("#theNumberOfAI")
+      .addEventListener("input", checkForNonZero);
+
+    // let whatIsFilled = {
+    //   color: false,
+    //   "turn-timer": false,
+    //   "overall-game-timer": false,
+    //   "number-of-AI": false,
+    //   "ai-difficulty": false,
+    // };
+    // https://code-boxx.com/iterate-over-objects-javascript/#:~:text=The%20common%20ways%20to%20iterate%20over%20objects%20in,a%20nested%20array%2C%20then%20loop%20through%20them.%20
+    // function isNumberGreaterThanZero(e) {
+    //   let input = e.target.value;
+    //   if (!input.match("[1-9]+")) {
+    //     window.alert("cannot input something other than 1 or greater");
+    //     turnTimer.value = "";
+    //   }
+    // }
+
+    function checkForNonZero(e) {
+      let input = e.target.value;
+      if (input == "0" || input == "") {
+        document.querySelector("#theAIDifficulty").disabled = true;
+      } else {
+        document.querySelector("#theAIDifficulty").disabled = false;
+      }
+    }
+
+    // function enableButton() {
+    //   let stateOfPage = Object.values(whatIsFilled);
+    //   for (let i = 0; i < stateOfPage.length; i++) {
+    //     if (stateOfPage[i] == false) return false;
+    //   }
+    //   return true;
+    // }
+
+    let preferencesButton = document.querySelector("#submit-preferences");
+    preferencesButton.addEventListener("click", () => {
+      localStorage.setItem(
+        "shapeColor",
+        document.querySelector("#theColorList").value
+      );
+      localStorage.setItem(
+        "turnTimerChoice",
+        document.querySelector("#player-turn-timer").value
+      );
+      localStorage.setItem(
+        "overallGameTimer",
+        document.querySelector("#overall-game-timer").value
+      );
+      localStorage.setItem(
+        "numAI",
+        document.querySelector("#theNumberOfAI").value
+      );
+      localStorage.setItem(
+        "aiDifficulty",
+        document.querySelector("#theAIDifficulty").value
+      );
+
+      localStorage.setItem("inputArr", createInputArray());
+      // localStorage.setItem(
+      //   "customizedBoardInput",
+      //   document.querySelector("#want-customized-board").checked
+      // );
+
+      location.href = "./singleOrTeam.html";
+    });
+
+    createInputArray = () => {
+      let inputString = document.querySelector("#customizedBoardInput").value;
+      let inputArr = [];
+
+      for (let i = 0; i < inputString.length; i++) {
+        let isNumber = inputString.charAt(i).match("[0-8]");
+        if (isNumber) {
+          inputArr.push(parseInt(inputString.charAt(i), 10));
+        }
+      }
+      return inputArr;
+    };
+
+    populateColorListFromJson = () => {
+      //for the option menu showing all of the different countries
+      let colorList = document.querySelector("#colorList");
+
+      fetch("./colors.json")
+        .then((response) => response.json())
+        .then((colors) => {
+          Object.entries(colors).forEach((entry) => {
+            const [key] = entry;
+            let colorName = key;
+            let option = document.createElement("option");
+            option.name = colorName;
+            option.value = colorName;
+            colorList.appendChild(option);
+          });
+        });
+    };
+
+    populateNumberOfAIList = () => {
+      let numberOfAIList = document.querySelector("#number-of-ai");
+      console.log(numberOfAIList);
+      for (let i = 0; i <= 4; i++) {
+        let option = document.createElement("option");
+        option.name = i;
+        option.value = i;
+        numberOfAIList.appendChild(option);
+      }
+    };
+
+    populateAIDifficulty = () => {
+      let aiDifficultyList = document.querySelector("#ai-difficulty");
+      let difficultyList = ["Rookie", "Bronze"];
+
+      for (let i = 0; i < difficultyList.length; i++) {
+        console.log("in loop");
+        let option = document.createElement("option");
+        option.name = difficultyList[i];
+        option.value = difficultyList[i];
+        aiDifficultyList.appendChild(option);
+      }
+    };
+
+    main = () => {
+      populateColorListFromJson();
+      populateNumberOfAIList();
+      populateAIDifficulty();
+    };
+
+    main();
+  </script>
+</html>
