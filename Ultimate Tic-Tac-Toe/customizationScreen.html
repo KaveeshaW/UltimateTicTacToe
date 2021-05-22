@@ -50,7 +50,7 @@
       <p class="menu-jumbotron-p">4-Player Edition</p>
     </div>
 
-    <div class="row" style="margin: auto">
+    <div class="row" style="margin: auto" id="outerDiv">
       <!--Left column-->
       <div class="col-sm-2 debug-bgcolor-side-column">
         <img
@@ -115,6 +115,13 @@
 
           <label for="customizedBoardInput">Customized Board Input: </label>
           <input name="list-of-input" id="customizedBoardInput" />
+
+          <input
+            type="file"
+            id="myfile"
+            name="myfile"
+            accept="image/png, image/jpeg"
+          />
 
           <button
             class="fa fa-gamepad btn btn-primary btn-lg btn-block"
@@ -210,6 +217,23 @@
 
       location.href = "./singleOrTeam.html";
     });
+
+    let fileInput = document.querySelector("#myfile");
+    fileInput.onchange = () => {
+      // background-image: url('../LOGICA x Code Differently.jpg');
+      // document.querySelector("#outerDiv").style.backgroundImage = "url('../LOGICA x Code Differently.jpg')";
+      let file = fileInput.files[0];
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        $("#outerDiv").css("background-image", 'url("' + reader.result + '")');
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+      }
+      // document.querySelector("#outerDiv").style.backgroundImage = "url(file)";
+      // console.log(fileInput.files[0].name);
+    };
 
     createInputArray = () => {
       let inputString = document.querySelector("#customizedBoardInput").value;
