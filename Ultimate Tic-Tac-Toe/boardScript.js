@@ -359,6 +359,7 @@ function startGame() {
   restartButton.addEventListener("click", startGame);
   menuButton.addEventListener("click", goToStartScreen);
   forfeit.addEventListener("click", goToStartScreen);
+  putBackgroundImage();
   setShapeColor(color);
   setPlayerTurnAndClass();
   setNumberofAIandDifficulty();
@@ -368,6 +369,14 @@ function startGame() {
   resetGame();
 
   resultPage.classList.remove("show");
+}
+
+function putBackgroundImage() {
+  let result = localStorage.getItem("backgroundImage");
+  $("#bigBoard").css("background-image", 'url("' + result + '")');
+  // only want to see the pic once
+  // $("#bigBoard").css("background-attachment", "fixed");
+  // $("#bigBoard").css("background-size", "cover");
 }
 
 function aiCheck(player) {
@@ -464,9 +473,8 @@ function resetGame() {
   setPlayerTurnAndClass();
   bigBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
   disableBoards(disabledBoardsList);
-  document.querySelector("#turn_timer").innerHTML = localStorage.getItem(
-    "turnTimerChoice"
-  );
+  document.querySelector("#turn_timer").innerHTML =
+    localStorage.getItem("turnTimerChoice");
 }
 
 //plan: update the html information from the 'current' player in the array
@@ -483,18 +491,14 @@ function nextPlayer() {
   players[currentPlayer].setIsTurn(true); //next player
 
   document.getElementById("game_code").innerHTML = "404";
-  document.getElementById("current_player_turn").innerHTML = players[
-    currentPlayer
-  ].getUserName();
-  document.getElementById("player_name").innerHTML = players[
-    currentPlayer
-  ].getUserName();
-  document.getElementById("player_symbol").innerHTML = players[
-    currentPlayer
-  ].getShape();
-  document.getElementById("player_score").innerHTML = players[
-    currentPlayer
-  ].getScore();
+  document.getElementById("current_player_turn").innerHTML =
+    players[currentPlayer].getUserName();
+  document.getElementById("player_name").innerHTML =
+    players[currentPlayer].getUserName();
+  document.getElementById("player_symbol").innerHTML =
+    players[currentPlayer].getShape();
+  document.getElementById("player_score").innerHTML =
+    players[currentPlayer].getScore();
   //document.getElementById("player_teammate").innerHTML = getTeammate();
   restartTimer(); //Restart timer for next player
   aiCheck(currentPlayer);

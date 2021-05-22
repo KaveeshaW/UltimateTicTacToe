@@ -210,6 +210,7 @@
       );
 
       localStorage.setItem("inputArr", createInputArray());
+
       // localStorage.setItem(
       //   "customizedBoardInput",
       //   document.querySelector("#want-customized-board").checked
@@ -220,19 +221,15 @@
 
     let fileInput = document.querySelector("#myfile");
     fileInput.onchange = () => {
-      // background-image: url('../LOGICA x Code Differently.jpg');
-      // document.querySelector("#outerDiv").style.backgroundImage = "url('../LOGICA x Code Differently.jpg')";
       let file = fileInput.files[0];
       var reader = new FileReader();
       reader.onloadend = function () {
-        $("#outerDiv").css("background-image", 'url("' + reader.result + '")');
+        localStorage.setItem("backgroundImage", reader.result);
       };
       if (file) {
         reader.readAsDataURL(file);
       } else {
       }
-      // document.querySelector("#outerDiv").style.backgroundImage = "url(file)";
-      // console.log(fileInput.files[0].name);
     };
 
     createInputArray = () => {
