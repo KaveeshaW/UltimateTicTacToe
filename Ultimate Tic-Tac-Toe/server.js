@@ -17,7 +17,7 @@ let nextFile;
 
 // set port
 // process.env means it will find a port that is unused if 8080 is being used
-var port = process.env.port || 8080;
+var port = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
