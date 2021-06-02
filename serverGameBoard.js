@@ -12,7 +12,7 @@ var numberOfPlayers = 0;
 var express = require("express"); // go get express
 var app = express(); // it's an express application
 var serv = require("http").Server(app);
-var port = 8080;
+var port = process.env.PORT || 8080;
 let whichFile;
 
 app.use(express.static(__dirname));
@@ -91,7 +91,7 @@ io.sockets.on("connection", function (socket) {
     socket.uniqueID = numberWaitingToPlay;
     playerQueue.push(socket);
     numberWaitingToPlay++;
-    
+
     //remove dead sockets (clients disconnected) from playersQueue
     let numberLeftBeforeGame = PLAYERS_REQUIRED_FOR_GAME - numberWaitingToPlay;
     console.log(numberLeftBeforeGame);
@@ -159,14 +159,15 @@ io.sockets.on("connection", function (socket) {
       the_game.restartGame();
     });
   }
-  
+
   socket.on("disconnect", (socket) => {
-    //! this does not remove the player from playerQueue, 
+    //! this does not remove the player from playerQueue,
     //! when the game is started the dead socket is not used (we think)
-    //! might have to remove the dead sockets - param socket was of no use 
-    if(whichFile == "waitingScreen") {
+    //! might have to remove the dead sockets - param socket was of no use
+    if (whichFile == "waitingScreen") {
       numberWaitingToPlay--;
-      let numberLeftBeforeGame = PLAYERS_REQUIRED_FOR_GAME - numberWaitingToPlay;
+      let numberLeftBeforeGame =
+        PLAYERS_REQUIRED_FOR_GAME - numberWaitingToPlay;
       console.log(numberLeftBeforeGame);
       console.log("Player has been disconnected!");
       io.emit("playerLeft", numberLeftBeforeGame);
