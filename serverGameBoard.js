@@ -156,18 +156,9 @@ io.sockets.on("connection", function (socket) {
     socket.on("placeMark", function (data) {
       console.log(data);
       //console.log(games);
-      let gameID = 0;
+      let gameID = findGameID(data);
       let foundPlayer = false;
-      for (let game of games) {
-        for (let player of game.players) {
-          if (data.name === player.getUserName()) {
-            foundPlayer = true;
-            break;
-          }
-        }
-        if (foundPlayer) break;
-        gameID++;
-      }
+
       // console.log(
       //   " Which Game: " +
       //     gameID +
@@ -185,7 +176,7 @@ io.sockets.on("connection", function (socket) {
 
     socket.on("restart", function (data) {
       console.log("Restart message received!");
-      games[data.gameID].restartGame();
+      games[findGameID(data)].restartGame();
     });
   }
 
@@ -203,6 +194,21 @@ io.sockets.on("connection", function (socket) {
     }
   });
 });
+
+let findGameID = (data) => {
+  let gameID = 0;
+  for (let game of games) {
+    for (let player of game.players) {
+      if (data.name === player.getUserName()) {
+        foundPlayer = true;
+        break;
+      }
+    }
+    if (foundPlayer) break;
+    gameID++;
+  }
+  return gameID;
+};
 
 //Exports for testing purposes
 module.exports.app = app;

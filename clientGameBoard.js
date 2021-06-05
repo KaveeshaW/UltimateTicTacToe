@@ -145,7 +145,7 @@ function restartGame() {
 }
 
 function restartGameButton() {
-  socket.emit("restart");
+  socket.emit("restart", { name: clientName });
 }
 
 function notImplementedAlert() {
