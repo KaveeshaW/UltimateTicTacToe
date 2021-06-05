@@ -157,7 +157,6 @@ io.sockets.on("connection", function (socket) {
       console.log(data);
       //console.log(games);
       let gameID = findGameID(data);
-      let foundPlayer = false;
 
       // console.log(
       //   " Which Game: " +
@@ -197,6 +196,7 @@ io.sockets.on("connection", function (socket) {
 
 let findGameID = (data) => {
   let gameID = 0;
+  let foundPlayer = false;
   for (let game of games) {
     for (let player of game.players) {
       if (data.name === player.getUserName()) {
