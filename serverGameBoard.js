@@ -1,6 +1,6 @@
 //var genuuid = require("uuid/v4");
 //var cookieParser = require("cookie-parser");
-
+const User = require("./models/user");
 const player = require("./player.js");
 const { game, _4PlayerGame, _2v2Game } = require("./game.js");
 
@@ -15,12 +15,78 @@ var serv = require("http").Server(app);
 var port = process.env.PORT || 8080;
 let whichFile;
 
+// connect to mongoDB
+
+const mongoose = require("mongoose");
+const { SSL_OP_TLS_BLOCK_PADDING_BUG } = require("constants");
+const dbURI =
+  "mongodb+srv://kweera2:aUserWasHere123@cluster0.nmzec.mongodb.net/game?retryWrites=true&w=majority";
+
+mongoose
+  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((result) =>
+    // server needs to listen to request
+    serv.listen(port)
+  ) //!!! THIS NEEDS TO BE COMMENTED OUT WHEN RUNNING TESTS WITH JEST !!!)
+  .catch((err) => console.log(err));
+
 app.use(express.static(__dirname));
+app.set("view engine", "ejs");
 // app.use(cookieParser());
+
+// mongoose and mongo sandbox routes
+// app.get("/add-user", (req, res) => {
+//   const user = new User({
+//     userName: "test2",
+//   });
+//   user
+//     .save()
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+// app.get("/all-users", (req, res) => {
+//   User.find()
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+// app.get("/single-user", (req, res) => {
+//   User.findById("60c0f33f38b28080456b1233")
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
 
 app.get("/", function (req, res) {
   res.append("customPage", "startScreen");
   res.sendFile(__dirname + "/startScreen.html");
+});
+
+app.get("/users", function (req, res) {
+  console.log("in user express");
+  User.find()
+    .sort({ userName: -1 })
+    .then((result) => {
+      console.log(result);
+      res.render("users", { users: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // res.append("customPage", "users");
+  // res.sendFile(__dirname + "users.html");
 });
 
 app.get("/gameModeServer", function (req, res) {
@@ -73,8 +139,6 @@ app.get("/clientBoard", function (req, res) {
   res.sendFile(__dirname + "/clientBoard.html");
 });
 
-// server needs to listen to request
-serv.listen(port); //!!! THIS NEEDS TO BE COMMENTED OUT WHEN RUNNING TESTS WITH JEST !!!
 var io = require("socket.io")(serv, {});
 let numberWaitingToPlay = 0;
 let PLAYERS_REQUIRED_FOR_GAME = 4;

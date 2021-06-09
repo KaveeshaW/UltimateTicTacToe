@@ -52,21 +52,15 @@
       <!--Center column-->
       <div class="col-sm-8 debug-bgcolor-center-column">
         <div id="buttons_area" class="container menu-center-column-content">
-          <a href="./localOnline.html" class="btn btn-lg btn-primary btn-block">
-            <i class="fa fa-play"></i> Start New Game
-          </a>
-          <br />
-          <a href="#" class="btn btn-lg btn-primary btn-block">
-            <i class="fa fa-gift"></i> Shop
-          </a>
-          <br />
-          <a href="#" class="btn btn-lg btn-primary btn-block">
-            <i class="fa fa-bar-chart"></i> Your Player Stats
-          </a>
-          <br />
-          <a href="/users" class="btn btn-lg btn-primary btn-block">
-            <i class="fa fa-id-badge"></i> Login
-          </a>
+          <div class="blogs content">
+            <h2>All Users</h2>
+
+            <% if (users.length > 0) { %> <% users.forEach(user => { %>
+            <h3 class="username"><%= user.userName %></h3>
+            <% }) %> <% } else { %>
+            <p>There are no users to display...</p>
+            <% } %>
+          </div>
         </div>
       </div>
 
