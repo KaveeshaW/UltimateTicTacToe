@@ -1,30 +1,49 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  userName: {
-    type: String,
-    required: true,
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    wins: {
+      type: Number,
+      default: 0,
+    },
+    winStreak: {
+      type: Number,
+      default: 0,
+    },
+    winPercentage: {
+      type: Number,
+      default: 0.0,
+    },
+    gamesPlayed: {
+      type: Number,
+      default: 0,
+    },
+    highScore: {
+      type: Number,
+      default: 0,
+    },
+    amountOfCurrency: {
+      type: Number,
+      default: 0,
+    },
   },
-  wins: {
-    type: Number,
-  },
-  winStreak: {
-    type: Number,
-  },
-  winPercentage: {
-    type: Number,
-  },
-  gamesPlayed: {
-    type: Number,
-  },
-  highScore: {
-    type: Number,
-  },
-  currentCurrency: {
-    type: Number,
-  },
-});
+  { timestamps: true }
+);
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

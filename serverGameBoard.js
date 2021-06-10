@@ -3,6 +3,8 @@
 const User = require("./models/user");
 const player = require("./player.js");
 const { game, _4PlayerGame, _2v2Game } = require("./game.js");
+const AuthRoute = require("./routes/auth");
+require("dotenv").config();
 
 //Code that initially will run to start game
 var the_game = null;
@@ -19,19 +21,26 @@ let whichFile;
 
 const mongoose = require("mongoose");
 const { SSL_OP_TLS_BLOCK_PADDING_BUG } = require("constants");
-const dbURI =
-  "mongodb+srv://kweera2:aUserWasHere123@cluster0.nmzec.mongodb.net/game?retryWrites=true&w=majority";
 
 mongoose
-  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) =>
+  .connect(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((result) => {
+    console.log("database connected");
     // server needs to listen to request
-    serv.listen(port)
-  ) //!!! THIS NEEDS TO BE COMMENTED OUT WHEN RUNNING TESTS WITH JEST !!!)
+    serv.listen(port);
+    console.log("server listening on port: " + port);
+  }) //!!! THIS NEEDS TO BE COMMENTED OUT WHEN RUNNING TESTS WITH JEST !!!)
   .catch((err) => console.log(err));
 
 app.use(express.static(__dirname));
+//app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.set("view engine", "ejs");
+app.use("/api", AuthRoute);
 // app.use(cookieParser());
 
 // mongoose and mongo sandbox routes
@@ -70,9 +79,23 @@ app.set("view engine", "ejs");
 // });
 
 app.get("/", function (req, res) {
-  res.append("customPage", "startScreen");
-  res.sendFile(__dirname + "/startScreen.html");
+  res.render("login.ejs", { name: "Kaveesha" });
+  // res.append("customPage", "startScreen");
+  // res.sendFile(__dirname + "/startScreen.html");
 });
+
+app.get("/login", (req, res) => {
+  res.render("login.ejs");
+});
+
+// app.post("/login", (req, res) => {
+// });
+
+app.get("/register", (req, res) => {
+  res.render("register.ejs");
+});
+
+//app.post("/register", (req, res) => {});
 
 app.get("/users", function (req, res) {
   console.log("in user express");
