@@ -1,10 +1,10 @@
 //var genuuid = require("uuid/v4");
 //var cookieParser = require("cookie-parser");
+require("dotenv").config();
 const User = require("./models/user");
 const player = require("./player.js");
 const { game, _4PlayerGame, _2v2Game } = require("./game.js");
 const AuthRoute = require("./routes/auth");
-require("dotenv").config();
 
 //Code that initially will run to start game
 var the_game = null;
@@ -41,6 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use("/api", AuthRoute);
+const authenticate = require("./middleware/authenticate");
 // app.use(cookieParser());
 
 // mongoose and mongo sandbox routes
@@ -112,7 +113,7 @@ app.get("/users", function (req, res) {
   // res.sendFile(__dirname + "users.html");
 });
 
-app.get("/gameModeServer", function (req, res) {
+app.get("/gameModeServer", authenticate, function (req, res) {
   res.append("customPage", "gameModeServer");
   res.sendFile(__dirname + "/gameModeServer.html");
 });
