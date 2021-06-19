@@ -1,10 +1,13 @@
 //var genuuid = require("uuid/v4");
 //var cookieParser = require("cookie-parser");
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const User = require("./models/user");
 const player = require("./player.js");
 const { game, _4PlayerGame, _2v2Game } = require("./game.js");
-const AuthRoute = require("./routes/auth");
+// const AuthRoute = require("./routes/auth");
 
 //Code that initially will run to start game
 var the_game = null;
@@ -40,63 +43,97 @@ app.use(express.static(__dirname));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
-app.use("/api", AuthRoute);
+//app.use("/", AuthRoute);
 const authenticate = require("./middleware/authenticate");
-// app.use(cookieParser());
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-// mongoose and mongo sandbox routes
-// app.get("/add-user", (req, res) => {
-//   const user = new User({
-//     userName: "test2",
-//   });
-//   user
-//     .save()
-//     .then((result) => {
-//       res.send(result);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
-// app.get("/all-users", (req, res) => {
-//   User.find()
-//     .then((result) => {
-//       res.send(result);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
-// app.get("/single-user", (req, res) => {
-//   User.findById("60c0f33f38b28080456b1233")
-//     .then((result) => {
-//       res.send(result);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "2h" });
+}
 
 app.get("/", function (req, res) {
-  res.render("login.ejs", { name: "Kaveesha" });
+  res.render("login.ejs", { error: "" });
   // res.append("customPage", "startScreen");
   // res.sendFile(__dirname + "/startScreen.html");
 });
 
 app.get("/login", (req, res) => {
-  res.render("login.ejs");
+  res.render("login.ejs", { error: "" });
 });
 
-// app.post("/login", (req, res) => {
-// });
+app.post("/login", (req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  User.findOne({ $or: [{ email: username }] }).then((user) => {
+    if (user) {
+      bcrypt.compare(password, user.password, function (err, result) {
+        if (err) {
+          res.json({
+            error: err,
+          });
+        }
+        if (result) {
+          const user = { name: username };
+          const accessToken = generateAccessToken(user);
+          const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+          refreshTokens.push(refreshToken);
+          res.sendFile(__dirname + "/startScreen.html");
+        } else {
+          res.render("login.ejs", { error: "Password does not match" });
+        }
+      });
+    } else {
+      res.render("login.ejs", { error: "No user found" });
+    }
+  });
+});
 
 app.get("/register", (req, res) => {
   res.render("register.ejs");
 });
 
-//app.post("/register", (req, res) => {});
+app.post("/register", async (req, res) => {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    let user = new User({
+      username: req.body.username,
+      password: hashedPassword,
+      email: req.body.email,
+    });
+
+    user
+      .save()
+      .then((user) => {
+        res.redirect("/login");
+      })
+      .catch((error) => {
+        res.json({
+          message: error,
+        });
+      });
+  } catch {
+    res.redirect("/register");
+  }
+});
+
+app.delete("/logout", (req, res) => {
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  res.sendStatus(204);
+});
+
+let refreshTokens = [];
+
+app.post("/token", (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null) return res.sendStatus(401);
+  if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    const accessToken = generateAccessToken({ name: user.name });
+    res.json({ accessToken: accessToken });
+  });
+});
 
 app.get("/users", function (req, res) {
   console.log("in user express");
@@ -113,7 +150,7 @@ app.get("/users", function (req, res) {
   // res.sendFile(__dirname + "users.html");
 });
 
-app.get("/gameModeServer", authenticate, function (req, res) {
+app.get("/gameModeServer", function (req, res) {
   res.append("customPage", "gameModeServer");
   res.sendFile(__dirname + "/gameModeServer.html");
 });
