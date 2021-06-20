@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Ultimate Tic-Tac-Toe Start Screen</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap 4.3.1 -->
     <link
@@ -33,6 +32,7 @@
     <!-- Additional Menu CSS Classes-->
     <link rel="stylesheet" type="text/css" href="./menus.css" media="screen" />
   </head>
+
   <body class="menu-body">
     <div id="title_banner" class="jumbotron text-center">
       <h1 class="menu-jumbotron-h1">Ultimate Tic-Tac-Toe</h1>
@@ -50,28 +50,7 @@
       </div>
 
       <!--Center column-->
-      <div class="col-sm-8 debug-bgcolor-center-column">
-        <div id="login" class="container" style="justify-content: center">
-          <h1>Login</h1>
-          <form action="/login" method="POST">
-            <div>
-              <% if (error) { %>
-              <p style="color: salmon"><%= error %></p>
-              <% } %>
-            </div>
-            <div>
-              <label for="username">Username</label>
-              <input type="text" id="username" name="username" required />
-            </div>
-            <div>
-              <label for="password">Password</label>
-              <input type="text" id="password" name="password" required />
-            </div>
-            <button type="submit">Login</button>
-          </form>
-          <a href="/register">Register Here</a>
-        </div>
-      </div>
+      <div class="col-sm-8 debug-bgcolor-center-column"></div>
 
       <!--Right column-->
       <div class="col-sm-2 debug-bgcolor-side-column">

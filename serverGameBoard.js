@@ -1,8 +1,8 @@
 //var genuuid = require("uuid/v4");
 //var cookieParser = require("cookie-parser");
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+// if (process.env.NODE_ENV !== "production") {
+require("dotenv").config();
+// }
 
 const User = require("./models/user");
 const player = require("./player.js");
@@ -19,6 +19,7 @@ var app = express(); // it's an express application
 var serv = require("http").Server(app);
 var port = process.env.PORT || 8080;
 let whichFile;
+var session = require("express-session");
 
 // connect to mongoDB
 
@@ -42,6 +43,13 @@ app.use(express.static(__dirname));
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.ACCESS_TOKEN_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.set("view engine", "ejs");
 //app.use("/", AuthRoute);
 const authenticate = require("./middleware/authenticate");
@@ -66,6 +74,7 @@ app.post("/login", (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
   User.findOne({ $or: [{ email: username }] }).then((user) => {
+    let myUser = user;
     if (user) {
       bcrypt.compare(password, user.password, function (err, result) {
         if (err) {
@@ -74,6 +83,7 @@ app.post("/login", (req, res) => {
           });
         }
         if (result) {
+          req.session.user = myUser;
           const user = { name: username };
           const accessToken = generateAccessToken(user);
           const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
@@ -117,11 +127,6 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.delete("/logout", (req, res) => {
-  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
-  res.sendStatus(204);
-});
-
 let refreshTokens = [];
 
 app.post("/token", (req, res) => {
@@ -135,7 +140,12 @@ app.post("/token", (req, res) => {
   });
 });
 
-app.get("/users", function (req, res) {
+app.delete("/logout", (req, res) => {
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  res.sendStatus(204);
+});
+
+app.get("/leaderboard", function (req, res) {
   console.log("in user express");
   User.find()
     .sort({ userName: -1 })
@@ -148,6 +158,13 @@ app.get("/users", function (req, res) {
     });
   // res.append("customPage", "users");
   // res.sendFile(__dirname + "users.html");
+});
+
+app.get("/playerstats", function (req, res) {
+  if (!req.session.user) {
+    res.render("/login.ejs");
+  }
+  res.render("/views/playerStats.ejs");
 });
 
 app.get("/gameModeServer", function (req, res) {
