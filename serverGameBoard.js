@@ -146,12 +146,11 @@ app.delete("/logout", (req, res) => {
 });
 
 app.get("/leaderboard", function (req, res) {
-  console.log("in user express");
   User.find()
     .sort({ userName: -1 })
     .then((result) => {
       console.log(result);
-      res.render("users", { users: result });
+      res.render("leaderboard", { users: result });
     })
     .catch((err) => {
       console.log(err);
@@ -162,9 +161,18 @@ app.get("/leaderboard", function (req, res) {
 
 app.get("/playerstats", function (req, res) {
   if (!req.session.user) {
-    res.render("/login.ejs");
+    res.render("login.ejs");
   }
-  res.render("/views/playerStats.ejs");
+  let user = req.session.user;
+  res.render("playerStats.ejs", {
+    wins: user.wins,
+    winStreak: user.winStreak,
+    winPercentage: user.winPercentage,
+    gamesPlayed: user.gamesPlayed,
+    highScore: user.highScore,
+    amountOfCurrency: user.amountOfCurrency,
+    username: user.username,
+  });
 });
 
 app.get("/gameModeServer", function (req, res) {

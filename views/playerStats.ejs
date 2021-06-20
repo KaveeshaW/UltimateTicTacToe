@@ -50,7 +50,29 @@
       </div>
 
       <!--Center column-->
-      <div class="col-sm-8 debug-bgcolor-center-column"></div>
+      <div class="col-sm-8 debug-bgcolor-center-column">
+        <% if (username) { %>
+        <p>Username: <%= username %></p>
+        <% } %> <% if (wins >= 0) { %>
+        <p>Wins: <%= wins %></p>
+        <% } %> <% if (winStreak >= 0) { %>
+        <p>Win Streak: <%= winStreak %></p>
+        <% } %> <% if (winPercentage >= 0) { %>
+        <p>Win Percentage: <%= winPercentage %></p>
+        <% } %> <% if (gamesPlayed >= 0) { %>
+        <p>Games Played: <%= gamesPlayed %></p>
+        <% } %> <% if (highScore >= 0) { %>
+        <p>High Score: <%= highScore %></p>
+        <% } %> <% if (amountOfCurrency >= 0) { %>
+        <p>Amount Of Currency: <%= amountOfCurrency %></p>
+        <% } %>
+        <button
+          class="fa fa-gamepad btn btn-primary btn-lg btn-block"
+          id="main-menu"
+        >
+          Go Back To Main Menu
+        </button>
+      </div>
 
       <!--Right column-->
       <div class="col-sm-2 debug-bgcolor-side-column">
@@ -62,4 +84,10 @@
       </div>
     </div>
   </body>
+  <script>
+    let goBackButton = document.querySelector("#main-menu");
+    goBackButton.addEventListener("click", () => {
+      location.href = "./startScreen.html";
+    });
+  </script>
 </html>

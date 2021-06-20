@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ultimate Tic-Tac-Toe Start Screen</title>
+    <title>LeaderBoard</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -53,13 +53,19 @@
       <div class="col-sm-8 debug-bgcolor-center-column">
         <div id="buttons_area" class="container menu-center-column-content">
           <div class="blogs content">
-            <h2>All Users</h2>
+            <h2>All Users:</h2>
 
             <% if (users.length > 0) { %> <% users.forEach(user => { %>
-            <h3 class="username"><%= user.userName %></h3>
+            <h3 class="username"><%= user.username %></h3>
             <% }) %> <% } else { %>
             <p>There are no users to display...</p>
             <% } %>
+            <button
+              class="fa fa-gamepad btn btn-primary btn-lg btn-block"
+              id="main-menu"
+            >
+              Go Back To Main Menu
+            </button>
           </div>
         </div>
       </div>
@@ -74,4 +80,11 @@
       </div>
     </div>
   </body>
+
+  <script>
+    let goBackButton = document.querySelector("#main-menu");
+    goBackButton.addEventListener("click", () => {
+      location.href = "./startScreen.html";
+    });
+  </script>
 </html>
