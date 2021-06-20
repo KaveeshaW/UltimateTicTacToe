@@ -1,8 +1,4 @@
-//var genuuid = require("uuid/v4");
-//var cookieParser = require("cookie-parser");
-// if (process.env.NODE_ENV !== "production") {
 require("dotenv").config();
-// }
 
 const User = require("./models/user");
 const player = require("./player.js");
@@ -22,7 +18,6 @@ let whichFile;
 var session = require("express-session");
 
 // connect to mongoDB
-
 const mongoose = require("mongoose");
 const { SSL_OP_TLS_BLOCK_PADDING_BUG } = require("constants");
 
@@ -40,7 +35,6 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(express.static(__dirname));
-//app.use(express.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
